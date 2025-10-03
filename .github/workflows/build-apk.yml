@@ -18,35 +18,32 @@ jobs:
       with:
         flutter-version: '3.22.0'
         
-    - name: Create Flutter Project
+    - name: Create Flutter Project in Root
       run: |
-        # Delete existing folders if they exist
+        # Clean existing Flutter files
         rm -rf android ios lib test
         
-        # Create new Flutter project
-        flutter create --org com.azan --project-name azan_watch_app .
-        
-    - name: Copy App Code
-      run: |
-        # Copy our main.dart file
-        cp lib/main.dart azan_watch_app/lib/
-        cd azan_watch_app
+        # Create Flutter project in current directory
+        flutter create --org com.azan .
         
     - name: Install Dependencies
-      run: |
-        cd azan_watch_app
-        flutter pub get
+      run: flutter pub get
       
     - name: Build APK
       run: |
-        cd azan_watch_app
+        echo "=== Building APK ==="
         flutter build apk --release
-        echo "APK build completed!"
+        echo "=== APK Files List ==="
         ls -la build/app/outputs/flutter-apk/
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: azan-watch-app
-        path: azan_watch_app/build/app/outputs/flutter-apk/app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
         retention-days: 30
+        
+    - name: Show Success Message
+      run: |
+        echo "🎉 APK successfully built!"
+        echo "📱 Download from Artifacts section"
