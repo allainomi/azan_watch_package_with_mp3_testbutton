@@ -1,0 +1,14 @@
+# Flutter
+/android/
+/ios/
+/build/
+
+# Node.js
+/node_modules/
+
+# Audio files
+/*.mp3
+/*.wav
+
+# System
+.DS_Store
