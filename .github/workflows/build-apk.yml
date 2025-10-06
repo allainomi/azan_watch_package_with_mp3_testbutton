@@ -18,6 +18,19 @@ jobs:
       with:
         flutter-version: '3.22.0'
         
+    - name: Fix Flutter Project Structure
+      run: |
+        echo "🔧 Fixing Flutter project structure..."
+        
+        # Check if it's a valid Flutter project
+        if [ ! -f "pubspec.yaml" ]; then
+          echo "❌ pubspec.yaml not found"
+          exit 1
+        fi
+        
+        # Create proper Flutter project structure
+        flutter create --org com.azan --project-name azan_watch_app --overwrite .
+        
     - name: Install Dependencies
       run: flutter pub get
       
@@ -30,3 +43,9 @@ jobs:
         name: azan-watch-app
         path: build/app/outputs/flutter-apk/app-release.apk
         retention-days: 30
+        
+    - name: Show Success Message
+      run: |
+        echo "🎉 APK successfully built!"
+        echo "📱 Download from Artifacts section"
+        echo "📦 APK size: $(du -h build/app/outputs/flutter-apk/app-release.apk | cut -f1)"
